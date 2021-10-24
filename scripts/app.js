@@ -3,6 +3,9 @@ const card = document.querySelector('.card')
 const details = document.querySelector('.details')
 const time = document.querySelector('img.time')
 const icon = document.querySelector('.icon')
+const forecast = new Forecast()
+
+console.log(forecast);
 
 const updateUI = (data) => {
     const cityDets = data.cityDets
@@ -22,11 +25,11 @@ const updateUI = (data) => {
     icon.innerHTML = `<img src="${iconSrc}">`
 
     let timeSrc = weather[0].IsDayTime ? '/img/day.jpeg': '/img/night.jpeg' ;
-    // if(weather[0].IsDayTime === true) {
-    //     timeSrc = '/img/day.jpeg'
-    // } else {
-    //     timeSrc ='/img/night.jpeg'
-    // }
+    if(weather[0].IsDayTime === true) {
+        timeSrc = '/img/day.jpeg'
+    } else {
+        timeSrc ='/img/night.jpeg'
+    }
     time.setAttribute('src', timeSrc)
     
 
@@ -35,15 +38,15 @@ const updateUI = (data) => {
     }
 }
 
-const updateCity = async(city) => {
-    const cityDets = await getCity(city)
-    const weather = await getWeather(cityDets.Key)
+// const updateCity = async(city) => {
+//     // const cityDets = await getCity(city)
+//     // const weather = await getWeather(cityDets.Key)
 
-    return {
-        cityDets: cityDets,
-        weather : weather 
-    }
-}
+//     // return {
+//     //     cityDets: cityDets,
+//     //     weather : weather 
+//     // }
+// }
 
 cityForm.addEventListener('submit', (e) => {
     e.preventDefault()
@@ -51,7 +54,7 @@ cityForm.addEventListener('submit', (e) => {
    cityForm.reset()
    
 
-    updateCity(city)
+    forecast.updateCity(city)
         .then(data => updateUI(data))
         .catch(err => console.log(err))
    
@@ -60,7 +63,27 @@ cityForm.addEventListener('submit', (e) => {
 })
 
 if(localStorage.getItem('city')) {
-    updateCity(localStorage.getItem('city'))
+    forecast.updateCity(localStorage.getItem('city'))
         .then(data => updateUI(data))
         .catch(err => console.log(err))
 }
+
+// const rem = (str) => {
+//     str =str.slice(1, -1)
+//     console.log(str);
+// }
+
+// rem('retek')
+
+
+// let myAr = [1, 6, 9, -4, -1, 4]
+// let s =0
+// for(i=0; i<myAr.length; i++) {
+    
+//     if(myAr[i] > 0) {
+//         s += myAr[i]
+//     } else {
+        
+//     }
+// }
+// console.log(s);
